@@ -5,6 +5,4 @@ def add_bias_column(X : np.array) -> np.array:
         X = X.reshape(-1, 1)
     betta0 = np.ones(X.shape[0])
     betta0 = betta0.reshape(-1, 1)
-    print(betta0.shape)
-    print(X.shape)
     return np.concatenate((betta0, X), axis=1)
