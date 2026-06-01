@@ -62,4 +62,4 @@ ani = animation.FuncAnimation(
 )
 
 plt.show()
-ani.save("assets/results/loss_surface_2d.gif", writer="pillow")
+ani.save("assets/2d/loss_surface_2d.gif", writer="pillow")

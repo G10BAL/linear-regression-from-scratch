@@ -50,4 +50,4 @@ ani = animation.FuncAnimation(
 )
 
 plt.show()
-ani.save("assets/results/Gradient_Descent_3d.gif", writer="pillow")
+ani.save("assets/3d/Gradient_Descent_3d.gif", writer="pillow")

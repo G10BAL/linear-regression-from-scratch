@@ -40,4 +40,4 @@ ani = animation.FuncAnimation(
 )
 
 plt.show()
-ani.save("assets/results/Gradient_Descent_2d.gif", writer="pillow")
+ani.save("assets/2d/Gradient_Descent_2d.gif", writer="pillow")

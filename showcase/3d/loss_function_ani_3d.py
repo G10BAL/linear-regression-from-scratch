@@ -70,4 +70,4 @@ ani = animation.FuncAnimation(
 )
 
 plt.show()
-ani.save("assets/results/loss_surface_3d.gif", writer="pillow")
+ani.save("assets/3d/loss_surface_3d.gif", writer="pillow")

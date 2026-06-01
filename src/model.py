@@ -4,6 +4,7 @@ from .strategies.base import RegressionStrategy
 from .strategies.normal_equation import NormalEquation
 from .strategies.gradient_descent import GradientDescent
 from .utils import add_bias_column
+from .metrics import mse, r2
 
 class LinearRegression:
     def __init__(self, method: str, **kwargs):
@@ -40,8 +41,7 @@ class LinearRegression:
         return X.dot(theta)
     
     def compute_mse(self, X, y, theta=None):
-        if theta is None:
-            theta = self.theta
-        m = len(y)
-        predictions = self.predict(X, theta)
-        return (1 / (2 * m)) * np.sum((predictions - y) ** 2)
+        return mse(y, self.predict(X, theta))
+
+    def compute_r2(self, X, y):
+        return r2(y, self.predict(X))
