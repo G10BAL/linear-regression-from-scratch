@@ -27,7 +27,7 @@ the gradient to zero:
 
 $$\theta = (X^TX)^{-1}X^Ty$$
 
-There is a possible problem: (X^TX)^{-1} can be [singular matrix](https://en.wikipedia.org/wiki/Singular_matrix).
+There is a possible problem: $(X^TX)^{-1}$ can be [singular matrix](https://en.wikipedia.org/wiki/Singular_matrix).
 I deal with this problem using [pseudoinverse matrix](https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse).
 You can read more about the proof [here](https://eli.thegreenplace.net/2014/derivation-of-the-normal-equation-for-linear-regression) and [here](https://eli.thegreenplace.net/2015/the-normal-equation-and-matrix-calculus/).
 ### Gradient Descent
