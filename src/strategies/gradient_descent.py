@@ -16,10 +16,6 @@ class GradientDescent(RegressionStrategy):
         self._X_std = X.std(axis=0)
         return (X - self._X_mean) / self._X_std
 
-    def _denormalize_theta(self):
-        self.theta[1:] = self.theta[1:] / self._X_std
-        self.theta[0] = self.theta[0] - np.dot(self.theta[1:], self._X_mean)
-
     def fit(self, X, y):
         m = len(y)
         X_norm = add_bias_column(self._normalize(X))
@@ -38,9 +34,13 @@ class GradientDescent(RegressionStrategy):
 
         self._denormalize_theta()
 
+    def _denormalize_theta(self):
+        self.theta[1:] = self.theta[1:] / self._X_std
+        self.theta[0] = self.theta[0] - np.dot(self.theta[1:], np.atleast_1d(self._X_mean))
+
     # Only for animation purposes
     def _denormalized_copy(self):
         t = self.theta.copy()
         t[1:] = t[1:] / self._X_std
-        t[0] = t[0] - np.dot(t[1:], self._X_mean)
+        t[0] = t[0] - np.dot(t[1:], np.atleast_1d(self._X_mean))
         return t

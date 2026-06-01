@@ -31,13 +31,17 @@ class LinearRegression:
     def fit(self, X, y):
         self.strategy.fit(X, y)
     
-    def predict(self, X):
+    def predict(self, X, theta=None):
+        if theta is None:
+            theta = self.theta
         if X.ndim == 1:
             X.reshape(-1, 1)
         X = add_bias_column(X)
-        return X.dot(self.theta)
+        return X.dot(theta)
     
-    def compute_mse(self, X, y):
+    def compute_mse(self, X, y, theta=None):
+        if theta is None:
+            theta = self.theta
         m = len(y)
-        predictions = self.predict(X)
+        predictions = self.predict(X, theta)
         return (1 / (2 * m)) * np.sum((predictions - y) ** 2)
