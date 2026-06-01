@@ -1,10 +1,12 @@
 # Linear Regression from Scratch
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue)
-![Tests](https://github.com/username/linear-regression-from-scratch/actions/workflows/tests.yml/badge.svg)
+![Tests](https://github.com/gl0bal/linear-regression-from-scratch/actions/workflows/tests.yml/badge.svg)
 
-Implementation of linear regression from scratch using two methods — 
-Normal Equation and Gradient Descent — with training process visualization.
+Implementation of linear regression from scratch using two methods: 
+- Normal Equation
+- Gradient Descent
+with training process visualization.
 
 ## Demo
 | 2D Gradient Descent | Loss Surface 2D |
@@ -14,6 +16,8 @@ Normal Equation and Gradient Descent — with training process visualization.
 | 3D Gradient Descent | Loss Surface 3D |
 |---------------------|-----------------|
 | ![](assets/3d/Gradient_Descent_3d.gif) | ![](assets/3d/loss_surface_3d.gif) |
+
+> Click on any gif to view the full animation.
 
 ## Math Background
 
