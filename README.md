@@ -91,6 +91,7 @@ linear-regression/
 - Matplotlib — visualization
 - SciPy — only used for p-values
 - Pytest — testing
+- GitHub Actions - CI/CD
 
 ## Installation
 
