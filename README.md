@@ -1,7 +1,7 @@
 # Linear Regression from Scratch
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue)
-![Tests](https://github.com/gl0bal/linear-regression-from-scratch/actions/workflows/tests.yml/badge.svg)
+![Tests](https://github.com/G10BAL/linear-regression-from-scratch/actions/workflows/tests.yml/badge.svg)
 
 Implementation of linear regression from scratch using two methods: 
 - Normal Equation
@@ -36,26 +36,44 @@ An iterative optimization of the loss function:
 
 $$\theta := \theta - \alpha \cdot \nabla J(\theta)$$
 
-where the MSE gradient is:
+The implementation minimizes half the mean squared error,
+
+$$J(\theta) = \frac{1}{2m} \lVert X\theta-y \rVert_2^2,$$
+
+whose gradient is:
 
 $$\nabla J(\theta) = \frac{1}{m} X^T(X\theta - y)$$
 
-### Imlementation note
+### Implementation note
 
 In the code I use `add_bias_column` to construct the design matrix with an explicit intercept term (bias) prepended as a column of ones. Note that some implementations and literature keep the intercept separate from the feature matrix and treat it as a standalone parameter.
 
-### Why Gradient Descent if an exact formula exists?
+### Computational cost
 
-| | Normal Equation | Gradient Descent |
+Let **m** be the number of observations, **p** the number of coefficients
+(including the intercept), and **k** the number of gradient descent iterations.
+For a dense design matrix X with shape m × p:
+
+| | Normal Equation | Full-batch Gradient Descent |
 |---|---|---|
-| Complexity | $O(n^3)$ — matrix inversion | $O(k \cdot n^2)$ — k iterations |
-| Large datasets | Slow / impractical | Efficient |
-| Learning rate $\alpha$ | Not required | Required |
-| Result | Exact solution | Approximation |
-| Numerical stability | Issues if $X^TX$ is singular | More stable |
+| Training time | $O(mp^2 + p^3)$ | $O(kmp)$ |
+| Main operations | Form $X^TX$: $O(mp^2)$; compute its pseudoinverse: $O(p^3)$; remaining products: $O(mp^2)$ in this implementation | Matrix-vector products per iteration: $O(mp)$ |
+| Learning rate | Not required | Required; affects convergence |
+| Result | Direct least-squares solution, subject to floating-point precision | Iterative approximation; stops on small loss change or the epoch limit |
+| Numerical considerations | Pseudoinverse handles rank deficiency, but forming $X^TX$ worsens conditioning | Standardization helps; stability depends on the learning rate and conditioning |
 
-Normal Equation becomes impractical when the number of predictors $n > 10{,}000$.
-Gradient Descent scales well and serves as the foundation for neural networks.
+The code uses `pinv(X.T @ X) @ X.T @ y`, not just a matrix inversion.
+Its multiplication order also creates a p × m intermediate. Gradient descent
+standardizes X once in $O(mp)$ and stores coefficient history for the animations,
+using $O(kp)$ space for that history. Including prepared matrices, additional
+storage is $O(mp+p^2)$ for the direct method and $O(mp+kp)$ for this gradient
+descent implementation.
+
+Many observations with few features can still favor a direct solve. Many features
+make the p × p Gram matrix expensive; gradient descent trades that cost for
+repeated passes over the data. There is no universal 10,000-feature cutoff.
+For better numerical conditioning, an SVD/QR least-squares solve on X avoids
+explicitly forming the Gram matrix; that is not the method implemented here.
 
 ### Metrics
 - **MSE** — loss function
@@ -65,7 +83,7 @@ Gradient Descent scales well and serves as the foundation for neural networks.
 ## Project Structure
 
 ```
-linear-regression/
+linear-regression-from-scratch/
 ├── src/
 │   ├── strategies/
 │   │   ├── base.py           # abstract Strategy class
@@ -82,7 +100,7 @@ linear-regression/
 │   ├── test_normal_equation.py
 │   └── test_gradient_descent.py
 ├── assets/                   # saved plots and gifs
-└── main.py
+└── requirements.txt
 ```
 
 ## Tech Stack
@@ -96,7 +114,7 @@ linear-regression/
 ## Installation
 
 ```bash
-git clone https://github.com/username/linear-regression-from-scratch
+git clone https://github.com/G10BAL/linear-regression-from-scratch.git
 cd linear-regression-from-scratch
 python3 -m venv venv
 source venv/bin/activate
@@ -149,3 +167,4 @@ coefficient recovery, theta shape, and gradient descent convergence.
 - [Proof of the normal equation](https://eli.thegreenplace.net/2014/derivation-of-the-normal-equation-for-linear-regression)
 - [Calculus of matrices](https://eli.thegreenplace.net/2015/the-normal-equation-and-matrix-calculus/)
 - [Gradient descent breakdown](https://www.geeksforgeeks.org/machine-learning/gradient-descent-in-linear-regression/)
+
